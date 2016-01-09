@@ -64,6 +64,7 @@ namespace ToggleableWhiteness.Detours
                 case "TreeTool":
                 case "ResourceTool":
                 case "DistrictTool":
+                case "TransportTool":
                     if (!Util.IsInfoViewsPanelVisible())
                     {
                         mode = InfoManager.InfoMode.None;
