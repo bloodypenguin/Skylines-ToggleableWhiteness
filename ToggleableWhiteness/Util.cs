@@ -8,15 +8,8 @@ namespace ToggleableWhiteness
         public static bool IsInfoViewsPanelVisible()
         {
             var gameObject = GameObject.Find("InfoViewsPanel");
-            if (gameObject != null)
-            {
-                var uiPanel = gameObject.GetComponent<UIPanel>();
-                if (uiPanel != null && !uiPanel.isVisible)
-                {
-                    return false;
-                }
-            }
-            return true;
+            var uiPanel = gameObject?.GetComponent<UIPanel>();
+            return uiPanel == null || uiPanel.isVisible;
         }
     }
 }

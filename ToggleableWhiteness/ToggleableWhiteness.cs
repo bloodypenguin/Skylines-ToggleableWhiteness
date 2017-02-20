@@ -10,18 +10,9 @@ namespace ToggleableWhiteness
     {
         private static GameObject _monitor;
 
-        public string Name
-        {
-            get
-            {
-                return "ToggleableWhiteness";
-            }
-        }
+        public string Name => "ToggleableWhiteness";
 
-        public string Description
-        {
-            get { return "When plopping buildings, makes InfoView overlay displayed only if InfoView panel is visible"; }
-        }
+        public string Description => "When plopping buildings, makes InfoView overlay displayed only if InfoView panel is visible";
 
         public override void OnLevelLoaded(LoadMode mode)
         {

@@ -65,6 +65,7 @@ namespace ToggleableWhiteness.Detours
                 case "ResourceTool":
                 case "DistrictTool":
                 case "TransportTool":
+                case "CustomTransportTool":
                     if (!Util.IsInfoViewsPanelVisible())
                     {
                         mode = InfoManager.InfoMode.None;
@@ -79,12 +80,17 @@ namespace ToggleableWhiteness.Detours
                 case "NetToolFine":
                     if (Util.IsInfoViewsPanelVisible())
                     {
-                        ApplyForcedMode(ref mode, ref  subMode);
+                        ApplyForcedMode(ref mode, ref subMode);
                         if (mode == InfoManager.InfoMode.None)
                         {
                             mode = InfoManager.InfoMode.Traffic;
                             subMode = InfoManager.SubInfoMode.Default;
                         }
+                    }
+                    else
+                    {
+                        mode = InfoManager.InfoMode.None;
+                        subMode = InfoManager.SubInfoMode.Default;
                     }
                     break;
                 default:
