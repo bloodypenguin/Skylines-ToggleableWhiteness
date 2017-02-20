@@ -33,6 +33,8 @@ namespace ToggleableWhiteness.Detours
 
         protected override void OnButtonClicked(int index)
         {
+            if (index >= 0 && index < this.m_buttonToResource.Length)
+                index = this.m_buttonToResource[index];            
             if (index >= 0 && index < kResources.Length)
             {
                 var currentTool = ToolsModifierControl.GetCurrentTool<ToolBase>();
@@ -64,5 +66,9 @@ namespace ToggleableWhiteness.Detours
             }
 
         }
+
+        private int[] m_buttonToResource =>
+                (int[])typeof(GameInfoViewsPanel).GetField("m_buttonToResource", BindingFlags.NonPublic | BindingFlags.Instance)
+                    .GetValue(this);
     }
 }
