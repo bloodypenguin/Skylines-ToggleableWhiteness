@@ -38,8 +38,8 @@ namespace ToggleableWhiteness
             }
             else if (currentTool is TransportTool)
             {
-                Singleton<TransportManager>.instance.LinesVisible = true;
-                Singleton<TransportManager>.instance.TunnelsVisible = true;
+                TransportManager.instance.LinesVisible = ToolsModifierControl.GetCurrentTool<TransportTool>().m_prefab.m_class.m_service == ItemClass.Service.Disaster ? 128 : -129;
+                TransportManager.instance.TunnelsVisible = true;
             }
             else if (currentTool is TerrainTool || currentTool.GetType().Name == "InGameTerrainTool")
             {
@@ -47,9 +47,9 @@ namespace ToggleableWhiteness
             }
             else
             {
-                var nextInfoMode = Singleton<InfoManager>.instance.NextMode;
-                Singleton<TransportManager>.instance.LinesVisible = (nextInfoMode == InfoManager.InfoMode.Transport);
-                Singleton<TransportManager>.instance.TunnelsVisible =
+                var nextInfoMode = InfoManager.instance.NextMode;
+                TransportManager.instance.LinesVisible = (nextInfoMode == InfoManager.InfoMode.Transport) ? -129 : (nextInfoMode == InfoManager.InfoMode.EscapeRoutes ? 128 : 0);
+                TransportManager.instance.TunnelsVisible =
                     (nextInfoMode == InfoManager.InfoMode.Transport || nextInfoMode == InfoManager.InfoMode.Traffic);
             }
 

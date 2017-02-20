@@ -37,7 +37,7 @@ namespace ToggleableWhiteness.Detours
             {
                 var currentTool = ToolsModifierControl.GetCurrentTool<ToolBase>();
                 if (currentTool != null && (currentTool is NetTool || currentTool is BuildingTool || currentTool is DistrictTool
-                    || currentTool is TreeTool || currentTool is ResourceTool || currentTool.GetType().Name == "NetToolFine"))
+                    || currentTool is TreeTool || currentTool is ResourceTool))
                 {
                     ToolBaseDetour.ForceMode(kResources[index].enumValue, InfoManager.SubInfoMode.Default);
                 }

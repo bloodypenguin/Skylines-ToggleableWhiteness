@@ -77,7 +77,6 @@ namespace ToggleableWhiteness.Detours
                     }
                     break;
                 case "NetTool":
-                case "NetToolFine":
                     if (Util.IsInfoViewsPanelVisible())
                     {
                         ApplyForcedMode(ref mode, ref subMode);
