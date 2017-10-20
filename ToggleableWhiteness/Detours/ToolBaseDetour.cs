@@ -5,11 +5,9 @@ namespace ToggleableWhiteness.Detours
 {
     public class ToolBaseDetour : ToolBase
     {
-        private static readonly FieldInfo Field = typeof(ToolBase).GetField("m_forcedInfoMode", BindingFlags.Instance | BindingFlags.NonPublic);
-        private static readonly MethodInfo Original = typeof(ToolBase).GetMethod("ForceInfoMode",
-                BindingFlags.Instance | BindingFlags.NonPublic);
-        private static readonly MethodInfo Detour = typeof(ToolBaseDetour).GetMethod("ForceInfoMode",
-                BindingFlags.Instance | BindingFlags.NonPublic);
+        private static readonly FieldInfo m_forcedInfoMode = typeof(ToolBase).GetField("m_forcedInfoMode", BindingFlags.Static | BindingFlags.NonPublic);
+        private static readonly MethodInfo Original = typeof(ToolBase).GetMethod("ForceInfoMode", BindingFlags.Static | BindingFlags.NonPublic);
+        private static readonly MethodInfo Detour = typeof(ToolBaseDetour).GetMethod("ForceInfoMode", BindingFlags.Static | BindingFlags.NonPublic);
 
         private static RedirectCallsState _state;
         private static bool _deployed;
@@ -54,7 +52,7 @@ namespace ToggleableWhiteness.Detours
 
 
 
-        protected new void ForceInfoMode(InfoManager.InfoMode mode, InfoManager.SubInfoMode subMode)
+        protected new static void ForceInfoMode(InfoManager.InfoMode mode, InfoManager.SubInfoMode subMode)
         {
             var currentTool = ToolsModifierControl.GetCurrentTool<ToolBase>();
             switch (currentTool.GetType().Name)
@@ -97,12 +95,12 @@ namespace ToggleableWhiteness.Detours
             }
 
             if (mode == InfoManager.InfoMode.None &&
-                (InfoManager.InfoMode)Field.GetValue(this) == InfoManager.InfoMode.None)
+                (InfoManager.InfoMode)m_forcedInfoMode.GetValue(null) == InfoManager.InfoMode.None)
             {
                 return;
             }
 
-            Field.SetValue(this, mode);
+            m_forcedInfoMode.SetValue(null, mode);
             Singleton<InfoManager>.instance.SetCurrentMode(mode, subMode);
         }
 
