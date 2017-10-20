@@ -7,7 +7,7 @@ namespace ToggleableWhiteness.Detours
     {
         private static readonly FieldInfo m_forcedInfoMode = typeof(ToolBase).GetField("m_forcedInfoMode", BindingFlags.Static | BindingFlags.NonPublic);
         private static readonly MethodInfo Original = typeof(ToolBase).GetMethod("ForceInfoMode", BindingFlags.Static | BindingFlags.NonPublic);
-        private static readonly MethodInfo Detour = typeof(ToolBaseDetour).GetMethod("ForceInfoMode", BindingFlags.Static | BindingFlags.NonPublic);
+        private static readonly MethodInfo Detour = typeof(ToolBaseDetour).GetMethod("ForceInfoMode", BindingFlags.Static | BindingFlags.Public);
 
         private static RedirectCallsState _state;
         private static bool _deployed;
@@ -50,14 +50,11 @@ namespace ToggleableWhiteness.Detours
             _forceMode = false;
         }
 
-
-
-        protected new static void ForceInfoMode(InfoManager.InfoMode mode, InfoManager.SubInfoMode subMode)
+        public new static void ForceInfoMode(InfoManager.InfoMode mode, InfoManager.SubInfoMode subMode)
         {
             var currentTool = ToolsModifierControl.GetCurrentTool<ToolBase>();
             switch (currentTool.GetType().Name)
-            {
-             
+            {           
                 case "BuildingTool":
                 case "TreeTool":
                 case "ResourceTool":

@@ -13,11 +13,6 @@ namespace ToggleableWhiteness
         public void Awake()
         {
             _previousTool = null;
-            RedirectionHelper.RedirectCalls(typeof(ToolMonitor).GetMethod("ForceInfoMode",
-                BindingFlags.Static | BindingFlags.NonPublic),
-                typeof(ToolBase).GetMethod("ForceInfoMode",
-                    BindingFlags.Instance | BindingFlags.NonPublic)
-                );
         }
 
         public void Update()
@@ -30,11 +25,11 @@ namespace ToggleableWhiteness
             _previousTool = currentTool;
             if (currentTool is ResourceTool || currentTool is TreeTool)
             {
-                ForceInfoMode(currentTool, InfoManager.InfoMode.NaturalResources, InfoManager.SubInfoMode.Default);
+                ToolBaseDetour.ForceInfoMode(InfoManager.InfoMode.NaturalResources, InfoManager.SubInfoMode.Default);
             }
             else if (currentTool is DistrictTool)
             {
-                ForceInfoMode(currentTool, InfoManager.InfoMode.Districts, InfoManager.SubInfoMode.Default);
+                ToolBaseDetour.ForceInfoMode(InfoManager.InfoMode.Districts, InfoManager.SubInfoMode.Default);
             }
             else if (currentTool is TransportTool)
             {
@@ -43,7 +38,7 @@ namespace ToggleableWhiteness
             }
             else if (currentTool is TerrainTool || currentTool.GetType().Name == "InGameTerrainTool")
             {
-                ForceInfoMode(currentTool, InfoManager.InfoMode.None, InfoManager.SubInfoMode.Default);
+                ToolBaseDetour.ForceInfoMode(InfoManager.InfoMode.None, InfoManager.SubInfoMode.Default);
             }
             else
             {
@@ -53,12 +48,6 @@ namespace ToggleableWhiteness
                     (nextInfoMode == InfoManager.InfoMode.Transport || nextInfoMode == InfoManager.InfoMode.Traffic);
             }
 
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void ForceInfoMode(ToolBase tool, InfoManager.InfoMode mode, InfoManager.SubInfoMode subMode)
-        {
-            UnityEngine.Debug.Log($"{tool}-{mode}-{subMode}");
         }
 
         public void Destroy()
