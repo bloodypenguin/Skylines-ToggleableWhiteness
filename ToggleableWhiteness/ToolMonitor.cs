@@ -33,7 +33,7 @@ namespace ToggleableWhiteness
             }
             else if (currentTool is TransportTool)
             {
-                TransportManager.instance.LinesVisible = ToolsModifierControl.GetCurrentTool<TransportTool>().m_prefab.m_class.m_service == ItemClass.Service.Disaster ? 128 : -129;
+                TransportManager.instance.LinesVisible = ToolsModifierControl.GetCurrentTool<TransportTool>().m_prefab?.m_class?.m_service == ItemClass.Service.Disaster ? 128 : -129;
                 TransportManager.instance.TunnelsVisible = true;
             }
             else if (currentTool is TerrainTool || currentTool.GetType().Name == "InGameTerrainTool")
