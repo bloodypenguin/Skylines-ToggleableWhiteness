@@ -33,7 +33,17 @@ namespace ToggleableWhiteness
             }
             else if (currentTool is TransportTool)
             {
-                TransportManager.instance.LinesVisible = ToolsModifierControl.GetCurrentTool<TransportTool>().m_prefab?.m_class?.m_service == ItemClass.Service.Disaster ? 128 : -129;
+                var linesVisible = -35969;
+                switch (ToolsModifierControl.GetCurrentTool<TransportTool>().m_prefab?.m_class?.m_service)
+                {
+                    case ItemClass.Service.Disaster:
+                        linesVisible = 128;
+                        break;
+                    case ItemClass.Service.Tourism:
+                        linesVisible = 3072;
+                        break;
+                }
+                TransportManager.instance.LinesVisible =  linesVisible;
                 TransportManager.instance.TunnelsVisible = true;
             }
             else if (currentTool is TerrainTool || currentTool.GetType().Name == "InGameTerrainTool")
@@ -43,9 +53,31 @@ namespace ToggleableWhiteness
             else
             {
                 var nextInfoMode = InfoManager.instance.NextMode;
-                TransportManager.instance.LinesVisible = (nextInfoMode == InfoManager.InfoMode.Transport) ? -129 : (nextInfoMode == InfoManager.InfoMode.EscapeRoutes ? 128 : 0);
+                var linesVisible = 0;
+                switch (nextInfoMode)
+                {
+                    case InfoManager.InfoMode.Transport: 
+                        linesVisible =  -35969;
+                        break;
+                    case InfoManager.InfoMode.EscapeRoutes:
+                        linesVisible =  128;
+                        break;
+                    case InfoManager.InfoMode.Fishing:
+                        linesVisible = 32768;
+                        break;
+                    case InfoManager.InfoMode.Tours: 
+                        linesVisible = 3072;
+                        break;
+                }
+                if ((currentTool as NetTool)?.m_prefab?.m_netAI is FishingPathAI)
+                {
+                    linesVisible = 32768; 
+                }
+
+                TransportManager.instance.LinesVisible = linesVisible;
                 TransportManager.instance.TunnelsVisible =
                     (nextInfoMode == InfoManager.InfoMode.Transport || nextInfoMode == InfoManager.InfoMode.Traffic);
+
             }
 
         }
