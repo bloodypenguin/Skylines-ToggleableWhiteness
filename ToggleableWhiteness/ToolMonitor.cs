@@ -34,15 +34,18 @@ namespace ToggleableWhiteness
             else if (currentTool is TransportTool)
             {
                 var linesVisible = -35969;
-                switch (ToolsModifierControl.GetCurrentTool<TransportTool>().m_prefab?.m_class?.m_service)
+                
+                var transportTool = ToolsModifierControl.GetCurrentTool<TransportTool>();
+
+                if (ItemClass.Service.Disaster.Equals(transportTool.m_prefab?.m_class?.m_service))
                 {
-                    case ItemClass.Service.Disaster:
-                        linesVisible = 128;
-                        break;
-                    case ItemClass.Service.Tourism:
-                        linesVisible = 3072;
-                        break;
+                    linesVisible = 128; 
+                } else if (ItemClass.Service.PublicTransport.Equals(transportTool.m_prefab?.m_class?.m_service) &&
+                           ItemClass.SubService.PublicTransportTours.Equals(transportTool.m_prefab?.m_class?.m_subService))
+                {
+                    linesVisible = 3072;
                 }
+                
                 TransportManager.instance.LinesVisible =  linesVisible;
                 TransportManager.instance.TunnelsVisible = true;
             }
